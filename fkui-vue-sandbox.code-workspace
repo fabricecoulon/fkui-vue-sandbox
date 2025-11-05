@@ -1,0 +1,44 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "FKUI Vue Sandbox",
+    },
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+    },
+    "eslint.enable": true,
+    "prettier.requireConfig": true,
+    "editor.renderWhitespace": "boundary",
+    "eslint.alwaysShowStatus": true,
+    "eslint.validate": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact",
+      "vue",
+      "html",
+    ],
+    "[vue]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+    },
+    "jest.jestCommandLine": "npm exec jest --",
+    "jest.runMode": "on-demand",
+  },
+  "extensions": {
+    "recommendations": [
+      "christian-kohler.npm-intellisense",
+      "dbaeumer.vscode-eslint",
+      "ecmel.vscode-html-css",
+      "editorconfig.editorconfig",
+      "esbenp.prettier-vscode",
+      "html-validate.vscode-html-validate",
+      "orta.vscode-jest",
+      "vue.volar",
+    ],
+  },
+}
