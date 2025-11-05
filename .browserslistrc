@@ -1,0 +1,5 @@
+# cypress does not work with extends, see: https://github.com/cypress-io/cypress/issues/2983
+# for now we use the config from https://scm.sfa.se/projects/NPM-PACKAGES/repos/browserslist-config-fk/browse/index.js
+last 2 versions,
+ie 11,
+> 1%
