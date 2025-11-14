@@ -1,3 +1,4 @@
+import "./main.scss";
 import { createApp } from "vue";
 import "@fkui/icon-lib-default/dist/f";
 import {

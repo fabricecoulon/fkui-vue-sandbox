@@ -1,8 +1,4 @@
-/* stylelint-disable no-invalid-position-at-import-rule */
-
-@import "~@fkui/design/src/fonts";
-
-.fkui--vue-sandbox {
-    /* @import "~@forsakringskassan/exp-fkui-shim/shim"; */
-    @import "~@fkui/design/src/fkui";
-}
+@use "@fkui/theme-default";
+@use "@fkui/design";
+@use "@fkui/design/lib/fonts.css";
+@use "@fkui/font-default/src/font";
