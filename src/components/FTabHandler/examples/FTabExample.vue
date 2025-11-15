@@ -4,6 +4,13 @@ import FTabHandler from "../FTabHandler.vue";
 
 <template>
     <h2>FTabHandler</h2>
+    <p>
+        This example demonstrates the <code>FTabHandler</code> component with a
+        two-column layout. You can interact with the tabs by clicking to switch
+        views, dragging and dropping them between columns, or using the arrow
+        buttons to move them. When tabs are present in both columns, a
+        fullscreen button will appear within the tab's content area.
+    </p>
     <FTabHandler
         :flik-info="[
             'Flik 1',

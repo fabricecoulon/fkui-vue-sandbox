@@ -18,9 +18,9 @@ const tabHandler = ref(true);
             >
                 FTabHandler {{ tabHandler ? "off" : "on" }}
             </button>
-            <button type="button" class="button button--primary button--small">
+            <!-- <button type="button" class="button button--primary button--small">
                 button2
-            </button>
+            </button> -->
         </div>
         <hr />
         <!-- <f-text-field

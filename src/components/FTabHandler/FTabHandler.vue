@@ -1,5 +1,5 @@
-fdsfds
 <script lang="ts">
+// Module-level counter to ensure unique IDs for each FTabHandler instance.
 let idCounter = 0;
 </script>
 
@@ -9,7 +9,18 @@ import { FIcon } from "@fkui/vue";
 import FTab from "./FTab.vue";
 import { type TabData, type TabInfo } from "./tab-data";
 
+/**
+ * @displayName FTabHandler
+ * @description A component for managing and displaying content in a two-column tabbed interface.
+ * It supports moving tabs between columns, drag-and-drop reordering, and a fullscreen mode for individual tabs.
+ * The content for each tab is provided via named slots.
+ */
 const props = defineProps<{
+    /**
+     * An array of tab information objects or strings.
+     * A string will be treated as a tab heading.
+     * A `TabInfo` object can provide more details like initial position and active state.
+     */
     flikInfo: Array<TabInfo | string>;
 }>();
 
@@ -30,11 +41,14 @@ const flikar = ref(
     }),
 );
 
+// Computed properties for easy filtering and state checking
 const leftFlikar = computed(() => flikar.value.filter((flik) => !flik.right));
 const rightFlikar = computed(() => flikar.value.filter((flik) => flik.right));
 const fullscreenPossible = computed(
     () => !!leftFlikar.value.length && !!rightFlikar.value.length,
 );
+
+/** The tab that is currently in fullscreen mode, if any. */
 const fullscreenFlik = computed(
     () =>
         (fullscreenPossible.value &&
@@ -42,6 +56,12 @@ const fullscreenFlik = computed(
         undefined,
 );
 
+/**
+ * Reorganizes tabs, typically after a move operation.
+ * It ensures that there is always one active tab per column if tabs exist in it.
+ * It also resets any fullscreen state.
+ * @param {TabData} [movingFlik] - The tab that is being moved to the other column.
+ */
 function reorganize(movingFlik?: TabData): void {
     if (flikar.value.length === 0) {
         return;
@@ -78,6 +98,11 @@ function reorganize(movingFlik?: TabData): void {
 
 reorganize();
 
+/**
+ * Activates a specific tab, making its content visible.
+ * Deactivates other tabs in the same column.
+ * @param {number} flikId - The ID of the tab to activate.
+ */
 function activate(flikId: number): void {
     const valdFlik = flikar.value.find((flik) => flik.id === flikId);
     if (valdFlik) {
@@ -95,17 +120,29 @@ function activate(flikId: number): void {
     }
 }
 
+/**
+ * Handles the move event from a child FTab component.
+ * @param {TabData} flik - The tab to move.
+ */
 function onMove(flik: TabData): void {
     reorganize(flik);
 }
+
+/**
+ * Toggles the fullscreen state for a given tab.
+ * @param {TabData} flik - The tab to toggle fullscreen for.
+ */
 function onFullscreenChange(flik: TabData): void {
     if (flik.fullscreen) {
         flik.fullscreen = false;
     } else {
+        // Ensure only one tab can be fullscreen at a time
         flikar.value.forEach((flik) => (flik.fullscreen = false));
         flik.fullscreen = true;
     }
 }
+
+/** Sets the drag data when a tab heading drag operation starts. */
 function onStartDragFlik(event: DragEvent, flikId: number): void {
     if (event.dataTransfer) {
         event.dataTransfer.dropEffect = "move";
@@ -113,6 +150,8 @@ function onStartDragFlik(event: DragEvent, flikId: number): void {
         event.dataTransfer.setData("FlikId", `${flikId}`);
     }
 }
+
+/** Handles a tab being dropped into a new column. */
 function onDropFlik(event: DragEvent, right: boolean): void {
     const flikId = parseInt(event.dataTransfer?.getData("FlikId") || "", 10);
     const flik = flikar.value.find((flik) => flik.id === flikId);

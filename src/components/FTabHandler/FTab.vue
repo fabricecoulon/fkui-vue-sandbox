@@ -3,14 +3,34 @@ import { onMounted, ref } from "vue";
 import { FIcon } from "@fkui/vue";
 import { type TabData } from "./tab-data";
 
+/**
+ * @displayName FTab
+ * @description Represents a single tab's content within the FTabHandler.
+ * It handles rendering the content, and provides buttons for moving the tab or toggling fullscreen.
+ * The content is teleported to a container specified by the placement prop.
+ */
 defineProps<{
+    /**
+     * Data object for the tab, contains active state, fullscreen state, etc.
+     */
     tabData: TabData;
+    /**
+     * The ID of the element where the tab content will be teleported.
+     */
     placement: string;
+    /**
+     * If true, a fullscreen toggle button is shown.
+     */
     fullscreenPossible: boolean;
+    /**
+     * If true, it indicates that a tab is currently in fullscreen mode.
+     */
     fullscreenActive: boolean;
 }>();
 defineEmits<{
+    /** Emitted when the user clicks the move button */
     move: [];
+    /** Emitted when the user clicks the fullscreen button */
     fullscreen: [];
 }>();
 
