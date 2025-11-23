@@ -3417,6 +3417,9 @@ const PublicInstanceProxyHandlers = {
 function useSlots() {
   return getContext().slots;
 }
+function useAttrs() {
+  return getContext().attrs;
+}
 function getContext(calledFunctionName) {
   const i = getCurrentInstance();
   return i.setupContext || (i.setupContext = createSetupContext(i));
@@ -22249,6 +22252,166 @@ const __default__ = /* @__PURE__ */ defineComponent({
     };
   }
 });
+const iconClasses = {
+  success: {
+    symbol: "circle",
+    sign: "success",
+    screenReaderContextKey: "fkui.message-box.sr-context.success",
+    screenReaderContextDefault: "Meddelande"
+  },
+  warning: {
+    symbol: "circle",
+    sign: "alert",
+    screenReaderContextKey: "fkui.message-box.sr-context.warning",
+    screenReaderContextDefault: "Varningsmeddelande"
+  },
+  error: {
+    symbol: "triangle",
+    sign: "alert",
+    screenReaderContextKey: "fkui.message-box.sr-context.error",
+    screenReaderContextDefault: "Felmeddelande"
+  },
+  info: {
+    symbol: "circle",
+    sign: "i",
+    screenReaderContextKey: "fkui.message-box.sr-context.info",
+    screenReaderContextDefault: "Informationsmeddelande"
+  }
+};
+const _sfc_main$c = /* @__PURE__ */ defineComponent({
+  name: "FMessageBox",
+  components: {
+    FIcon,
+    IFlex,
+    IFlexItem
+  },
+  props: {
+    /**
+     * Type of message-box. 'success', 'error', 'warning' and 'info' is valid.
+     * */
+    type: {
+      type: String,
+      required: true,
+      validator(value) {
+        return ["success", "warning", "error", "info"].includes(value);
+      }
+    },
+    /**
+     * If message-box should be a banner.
+     * If prop is not used message-box will have default styling.
+     */
+    banner: {
+      type: Boolean,
+      required: false
+    },
+    /**
+     * It is important to provide a context for a screenreader, similar to a modal that initially outputs it is a dialog.
+     * Type-specific screenreader context is output by default in this component.
+     * By setting this property to false no context will be output.
+     * Note that by doing this, it is the applications responsiblity to provide a clear context.
+     */
+    provideScreenReaderContext: {
+      type: Boolean,
+      required: false,
+      /* eslint-disable-next-line vue/no-boolean-default -- technical debt, boolean attributes should be opt-in not opt-out */
+      default: true
+    },
+    /**
+     * Select standard or short layout.
+     *
+     * - 'normal' - Use normal layout when need for heading and/or longer text/multiple sentences
+     * - 'short' - Use short layout when only need for shorter text
+     */
+    layout: {
+      type: String,
+      required: false,
+      default: "standard",
+      validator(value) {
+        return ["standard", "short"].includes(value);
+      }
+    }
+  },
+  data() {
+    return {
+      headingClass: ["message-box__heading"]
+    };
+  },
+  computed: {
+    messageBoxType() {
+      if (this.layout === "short") {
+        return `message-box--${this.type}-short`;
+      } else {
+        return `message-box--${this.type}`;
+      }
+    },
+    bannerType() {
+      return this.banner ? `message-box--banner` : "";
+    },
+    classType() {
+      return `icon__${this.type}`;
+    },
+    classIcon() {
+      return iconClasses[this.type].symbol === "circle" && iconClasses[this.type].sign === "alert" ? `icon__exclamation` : "";
+    },
+    stackTypeClass() {
+      return `icon-stack--${this.type}`;
+    },
+    symbol() {
+      return iconClasses[this.type].symbol;
+    },
+    sign() {
+      return iconClasses[this.type].sign;
+    }
+  },
+  methods: {
+    screenReaderContext() {
+      return TranslationService.provider.translate(iconClasses[this.type].screenReaderContextKey, iconClasses[this.type].screenReaderContextDefault);
+    }
+  }
+});
+const _hoisted_1$c = {
+  key: 0,
+  class: "sr-only"
+};
+function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_f_icon = resolveComponent("f-icon");
+  const _component_i_flex_item = resolveComponent("i-flex-item");
+  const _component_i_flex = resolveComponent("i-flex");
+  return openBlock(), createElementBlock("div", {
+    class: normalizeClass(["message-box", [_ctx.messageBoxType, _ctx.bannerType]])
+  }, [_ctx.provideScreenReaderContext ? (openBlock(), createElementBlock("span", _hoisted_1$c, toDisplayString(_ctx.screenReaderContext()), 1)) : createCommentVNode("", true), _cache[2] || (_cache[2] = createTextVNode()), createVNode(_component_i_flex, {
+    gap: "2x"
+  }, {
+    default: withCtx(() => [_ctx.layout === "short" ? (openBlock(), createBlock(_component_i_flex_item, {
+      key: 0,
+      class: "message-box__icon",
+      shrink: "",
+      align: "center"
+    }, {
+      default: withCtx(() => [createBaseVNode("span", {
+        class: normalizeClass(["icon-stack", _ctx.stackTypeClass])
+      }, [createVNode(_component_f_icon, {
+        class: normalizeClass(_ctx.classType),
+        name: _ctx.symbol
+      }, null, 8, ["class", "name"]), _cache[0] || (_cache[0] = createTextVNode()), createVNode(_component_f_icon, {
+        class: normalizeClass(_ctx.classIcon),
+        name: _ctx.sign
+      }, null, 8, ["class", "name"])], 2)]),
+      _: 1
+    })) : createCommentVNode("", true), _cache[1] || (_cache[1] = createTextVNode()), createVNode(_component_i_flex_item, {
+      class: "message-box__content",
+      grow: "",
+      align: "center"
+    }, {
+      default: withCtx(() => [renderSlot(_ctx.$slots, "default", normalizeProps(guardReactiveProps(_ctx.layout === "short" ? {} : {
+        headingSlotClass: _ctx.headingClass
+      })))]),
+      _: 3
+    })]),
+    _: 3
+  })], 2);
+}
+const FMessageBox = /* @__PURE__ */ _export_sfc$1(_sfc_main$c, [["render", _sfc_render$9]]);
 const _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
@@ -22256,12 +22419,12 @@ const _export_sfc = (sfc, props) => {
   }
   return target;
 };
-const _sfc_main$4 = {};
+const _sfc_main$7 = {};
 function _sfc_render(_ctx, _cache) {
   const _component_router_view = resolveComponent("router-view");
   return openBlock(), createBlock(_component_router_view);
 }
-const App = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render]]);
+const App = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render]]);
 /*!
  * vue-router v4.6.3
  * (c) 2025 Eduardo San Martin Morote
@@ -22578,20 +22741,20 @@ const routerKey = Symbol("");
 const routeLocationKey = Symbol("");
 const routerViewLocationKey = Symbol("");
 function useCallbacks() {
-  let handlers = [];
+  let handlers2 = [];
   function add(handler) {
-    handlers.push(handler);
+    handlers2.push(handler);
     return () => {
-      const i = handlers.indexOf(handler);
-      if (i > -1) handlers.splice(i, 1);
+      const i = handlers2.indexOf(handler);
+      if (i > -1) handlers2.splice(i, 1);
     };
   }
   function reset() {
-    handlers = [];
+    handlers2 = [];
   }
   return {
     add,
-    list: () => handlers.slice(),
+    list: () => handlers2.slice(),
     reset
   };
 }
@@ -23800,8 +23963,217 @@ function createRouter(options) {
   }
   return router2;
 }
+let idCounter$1 = 1;
+function generateId() {
+  const id = idCounter$1++;
+  return id;
+}
+let unhandledMessageListener = (message) => {
+  const { stack: stack2 } = new Error();
+  console.error("Unhandled message", message, stack2);
+};
+const handlers = /* @__PURE__ */ new Map();
+const globalHandler = createMessageHandlerImpl(true);
+const messageHandlerSymbol = Symbol("MessageHandler");
+function provideHandler(handler) {
+  provide(messageHandlerSymbol, handler);
+}
+function injectHandler() {
+  return inject(messageHandlerSymbol, globalHandler);
+}
+function createMessageHandler() {
+  const handler = createMessageHandlerImpl(false);
+  provideHandler(handler);
+  return handler;
+}
+function createMessageHandlerImpl(global2) {
+  const subscribers = /* @__PURE__ */ new Set();
+  const parentHandler = global2 ? null : injectHandler();
+  const internalMessages = ref([]);
+  const handler = {
+    postMessage(message) {
+      const id = generateId();
+      const fullMessage = { ...message, id };
+      if (subscribers.size) {
+        handlers.set(id, handler);
+        internalMessages.value.push(fullMessage);
+        if (internalMessages.value.length > 5) {
+          const oldestMessage = internalMessages.value.shift();
+          if (oldestMessage) {
+            handlers.delete(oldestMessage.id);
+          }
+        }
+        return id;
+      } else if (parentHandler) {
+        return parentHandler.postMessage(message);
+      } else {
+        unhandledMessageListener(fullMessage);
+        return id;
+      }
+    },
+    subscribe() {
+      const key = Symbol("Message subscriber");
+      subscribers.add(key);
+      return () => subscribers.delete(key);
+    },
+    getMessages() {
+      return internalMessages.value;
+    },
+    messages: computed(() => internalMessages.value),
+    disposeMessage(id) {
+      if (id === void 0) {
+        for (const message of internalMessages.value) {
+          handlers.delete(message.id);
+        }
+        internalMessages.value = [];
+      } else {
+        const index = internalMessages.value.findIndex(
+          (m) => m.id === id
+        );
+        if (index > -1) {
+          internalMessages.value.splice(index, 1);
+          handlers.delete(id);
+        }
+      }
+    }
+  };
+  return handler;
+}
+function useCurrentMessages() {
+  const handler = injectHandler();
+  let unsubscriber;
+  onMounted(() => unsubscriber = handler.subscribe());
+  onUnmounted(() => unsubscriber?.());
+  return handler.messages;
+}
+const _sfc_main$6 = /* @__PURE__ */ defineComponent({
+  __name: "FMessageContext",
+  setup(__props, { expose: __expose }) {
+    const handler = createMessageHandler();
+    __expose(handler);
+    return (_ctx, _cache) => {
+      return renderSlot(_ctx.$slots, "default");
+    };
+  }
+});
+function _scrollIntoView(element, options) {
+  if (!element) {
+    return;
+  }
+  element.scrollIntoView(options);
+}
+function scrollElementIntoView(element) {
+  _scrollIntoView(element, {
+    behavior: "smooth",
+    block: "end",
+    inline: "nearest"
+  });
+}
+const _sfc_main$5 = /* @__PURE__ */ defineComponent({
+  __name: "FMessageBoxWrapper",
+  setup(__props) {
+    const attrs = useAttrs();
+    const currentMessages = useCurrentMessages();
+    const messageBoxRefs = useTemplateRef("messageBox");
+    watch(
+      [currentMessages, messageBoxRefs],
+      () => {
+        if (!messageBoxRefs.value?.length || !currentMessages.value?.length) {
+          return;
+        }
+        const lastMessage = currentMessages.value[currentMessages.value.length - 1];
+        if (!lastMessage.options?.scrollIntoView) {
+          return;
+        }
+        const lastMessageBoxEl = messageBoxRefs.value[messageBoxRefs.value.length - 1];
+        if (lastMessageBoxEl) {
+          scrollElementIntoView(lastMessageBoxEl.$el);
+        }
+      },
+      { deep: true }
+    );
+    return (_ctx, _cache) => {
+      return renderSlot(_ctx.$slots, "default", { messages: unref(currentMessages) }, () => [
+        unref(currentMessages) && unref(currentMessages).length > 0 ? (openBlock(true), createElementBlock(Fragment, { key: 0 }, renderList(unref(currentMessages), (message) => {
+          return openBlock(), createBlock(unref(FMessageBox), mergeProps({
+            key: message.id
+          }, { ref_for: true }, unref(attrs), {
+            ref_for: true,
+            ref: "messageBox",
+            type: message.type,
+            layout: message.heading ? "standard" : "short",
+            "aria-live": "assertive",
+            role: "alert"
+          }), {
+            default: withCtx(({ headingSlotClass }) => [
+              message.heading ? (openBlock(), createElementBlock(Fragment, { key: 0 }, [
+                createBaseVNode("h2", {
+                  class: normalizeClass(headingSlotClass)
+                }, toDisplayString(message.heading), 3),
+                createBaseVNode("p", null, toDisplayString(message.body), 1)
+              ], 64)) : (openBlock(), createElementBlock(Fragment, { key: 1 }, [
+                createTextVNode(toDisplayString(message.body), 1)
+              ], 64))
+            ]),
+            _: 2
+          }, 1040, ["type", "layout"]);
+        }), 128)) : createCommentVNode("", true)
+      ]);
+    };
+  }
+});
+const _hoisted_1$3 = { class: "button-group" };
+const _sfc_main$4 = /* @__PURE__ */ defineComponent({
+  __name: "FMessageContextExample",
+  setup(__props) {
+    const messageHandler = useTemplateRef("messageHandler");
+    const counter = ref(0);
+    function closeMeddelande() {
+      messageHandler.value?.disposeMessage();
+    }
+    function showMeddelande(meddelande) {
+      messageHandler.value?.postMessage({
+        ...meddelande,
+        options: { scrollIntoView: true }
+      });
+    }
+    async function visaFelmeddelande() {
+      counter.value++;
+      showMeddelande({
+        type: "error",
+        body: `Detta är ett felmeddelande ${counter.value}`
+      });
+    }
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock(Fragment, null, [
+        _cache[1] || (_cache[1] = createBaseVNode("h2", null, "MessageContext & MessageBox", -1)),
+        createVNode(unref(_sfc_main$6), {
+          ref_key: "messageHandler",
+          ref: messageHandler
+        }, {
+          default: withCtx(() => [
+            createVNode(unref(_sfc_main$5))
+          ]),
+          _: 1
+        }, 512),
+        createBaseVNode("div", _hoisted_1$3, [
+          createBaseVNode("button", {
+            type: "button",
+            class: "button button--primary button--small",
+            onClick: _cache[0] || (_cache[0] = ($event) => visaFelmeddelande())
+          }, " visa "),
+          createBaseVNode("button", {
+            type: "button",
+            class: "button button--secondary button--small",
+            onClick: closeMeddelande
+          }, " close ")
+        ])
+      ], 64);
+    };
+  }
+});
 const _hoisted_1$2 = { key: 0 };
-const _hoisted_2$1 = { class: "content" };
+const _hoisted_2$2 = { class: "content" };
 const _hoisted_3$1 = { class: "buttons" };
 const _sfc_main$3 = /* @__PURE__ */ defineComponent({
   __name: "FTab",
@@ -23820,7 +24192,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
         (openBlock(), createBlock(Teleport, {
           to: `#${__props.placement}`
         }, [
-          withDirectives(createBaseVNode("div", _hoisted_2$1, [
+          withDirectives(createBaseVNode("div", _hoisted_2$2, [
             createBaseVNode("div", _hoisted_3$1, [
               withDirectives(createBaseVNode("button", {
                 onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("fullscreen"))
@@ -23852,9 +24224,9 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const FTab = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-737ab4f5"]]);
+const FTab = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-8d360499"]]);
 const _hoisted_1$1 = { class: "mytable" };
-const _hoisted_2 = { class: "myrow heading" };
+const _hoisted_2$1 = { class: "myrow heading" };
 const _hoisted_3 = ["onDrop"];
 const _hoisted_4 = ["onClick", "onDragstart"];
 const _hoisted_5 = ["onClick"];
@@ -23968,7 +24340,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock(Fragment, null, [
         createBaseVNode("div", _hoisted_1$1, [
-          createBaseVNode("div", _hoisted_2, [
+          createBaseVNode("div", _hoisted_2$1, [
             (openBlock(), createElementBlock(Fragment, null, renderList([false, true], (right) => {
               return withDirectives(createBaseVNode("div", {
                 key: right ? 0 : 1,
@@ -24045,13 +24417,18 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const FTabHandler = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-5017ab52"]]);
+const FTabHandler = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["__scopeId", "data-v-fe148692"]]);
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "FTabExample",
   setup(__props) {
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock(Fragment, null, [
         _cache[5] || (_cache[5] = createBaseVNode("h2", null, "FTabHandler", -1)),
+        _cache[6] || (_cache[6] = createBaseVNode("p", null, [
+          createTextVNode(" This example demonstrates the "),
+          createBaseVNode("code", null, "FTabHandler"),
+          createTextVNode(" component with a two-column layout. You can interact with the tabs by clicking to switch views, dragging and dropping them between columns, or using the arrow buttons to move them. When tabs are present in both columns, a fullscreen button will appear within the tab's content area. ")
+        ], -1)),
         createVNode(FTabHandler, { "flik-info": [
           "Flik 1",
           { heading: "Flik 2", active: true },
@@ -24091,14 +24468,30 @@ const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1 = { class: "sandbox-root" };
+const _hoisted_2 = { class: "button-group" };
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "DefaultView",
   setup(__props) {
+    const tabHandler = ref(false);
+    const messageContext = ref(false);
     return (_ctx, _cache) => {
       return openBlock(), createElementBlock("div", _hoisted_1, [
-        _cache[0] || (_cache[0] = createBaseVNode("h1", null, "FKUI Sandbox", -1)),
-        _cache[1] || (_cache[1] = createBaseVNode("hr", null, null, -1)),
-        createVNode(_sfc_main$1)
+        _cache[2] || (_cache[2] = createBaseVNode("h1", null, "FKUI Sandbox", -1)),
+        createBaseVNode("div", _hoisted_2, [
+          createBaseVNode("button", {
+            type: "button",
+            class: "button button--primary button--small",
+            onClick: _cache[0] || (_cache[0] = ($event) => tabHandler.value = !tabHandler.value)
+          }, " FTabHandler " + toDisplayString(tabHandler.value ? "off" : "on"), 1),
+          createBaseVNode("button", {
+            type: "button",
+            class: "button button--primary button--small",
+            onClick: _cache[1] || (_cache[1] = ($event) => messageContext.value = !messageContext.value)
+          }, " FMessageContext " + toDisplayString(messageContext.value ? "off" : "on"), 1)
+        ]),
+        _cache[3] || (_cache[3] = createBaseVNode("hr", null, null, -1)),
+        tabHandler.value ? (openBlock(), createBlock(_sfc_main$1, { key: 0 })) : createCommentVNode("", true),
+        messageContext.value ? (openBlock(), createBlock(_sfc_main$4, { key: 1 })) : createCommentVNode("", true)
       ]);
     };
   }
