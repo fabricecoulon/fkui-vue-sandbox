@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 //import { FTextField } from "@fkui/vue";
+import FMessageContextExample from "../components/FMessageContext/examples/FMessageContextExample.vue";
 import FTabExample from "../components/FTabHandler/examples/FTabExample.vue";
 
 //const awesomeModel = ref("");
-const tabHandler = ref(true);
+const tabHandler = ref(false);
+const messageContext = ref(false);
 </script>
 
 <template>
@@ -17,6 +19,13 @@ const tabHandler = ref(true);
                 @click="tabHandler = !tabHandler"
             >
                 FTabHandler {{ tabHandler ? "off" : "on" }}
+            </button>
+            <button
+                type="button"
+                class="button button--primary button--small"
+                @click="messageContext = !messageContext"
+            >
+                FMessageContext {{ messageContext ? "off" : "on" }}
             </button>
             <!-- <button type="button" class="button button--primary button--small">
                 button2
@@ -37,6 +46,9 @@ const tabHandler = ref(true);
         </f-text-field>
         <hr></hr> -->
         <f-tab-example v-if="tabHandler"></f-tab-example>
+        <f-message-context-example
+            v-if="messageContext"
+        ></f-message-context-example>
     </div>
 </template>
 
