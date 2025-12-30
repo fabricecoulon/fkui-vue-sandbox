@@ -64,23 +64,30 @@ onMounted(() => (mounted.value = true));
                     "
                     class="content"
                 >
-                    <div class="buttons">
-                        <button
-                            v-show="fullscreenPossible"
-                            @click="$emit('fullscreen')"
-                        >
-                            <f-icon
-                                :name="
-                                    tabData.fullscreen ? 'dash' : 'new-window'
-                                "
-                            />
-                        </button>
-                        <button @click="$emit('move')">
-                            <f-icon
-                                name="caret-up"
-                                :rotate="tabData.right ? '270' : '90'"
-                            />
-                        </button>
+                    <div class="content-header">
+                        <h3 class="tab-heading-text">
+                            {{ tabData.heading }}
+                        </h3>
+                        <div class="buttons">
+                            <button
+                                v-show="fullscreenPossible"
+                                @click="$emit('fullscreen')"
+                            >
+                                <f-icon
+                                    :name="
+                                        tabData.fullscreen
+                                            ? 'dash'
+                                            : 'new-window'
+                                    "
+                                />
+                            </button>
+                            <button @click="$emit('move')">
+                                <f-icon
+                                    name="caret-up"
+                                    :rotate="tabData.right ? '270' : '90'"
+                                />
+                            </button>
+                        </div>
                     </div>
                     <slot />
                 </div>
@@ -93,11 +100,19 @@ onMounted(() => (mounted.value = true));
 .content {
     padding: 1rem 1rem 2rem;
 }
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.tab-heading-text {
+    margin: 0;
+    font-size: 1.2rem;
+}
 .buttons {
-    width: 100%;
     display: flex;
     flex-wrap: nowrap;
-    justify-content: flex-end;
 }
 .buttons button {
     padding: 0.2rem 0.3rem;
