@@ -165,35 +165,80 @@ function onDropFlik(event: DragEvent, right: boolean): void {
     <div class="mytable">
         <div class="myrow heading">
             <div
-                v-for="right in [false, true]"
-                v-show="right ? rightFlikar.length : leftFlikar.length"
-                :key="right ? 0 : 1"
+                v-show="leftFlikar.length"
                 class="mycol"
-                @drop="onDropFlik($event, right)"
+                @drop="onDropFlik($event, false)"
                 @dragover.prevent
                 @dragenter.prevent
             >
-                <div
-                    v-for="flik in right ? rightFlikar : leftFlikar"
-                    :key="flik.id"
-                    class="heading2"
-                    :class="{
-                        active: flik.active,
-                        shrouded:
-                            fullscreenFlik && fullscreenFlik.id !== flik.id,
-                    }"
-                    draggable="true"
-                    @click="activate(flik.id)"
-                    @dragstart="onStartDragFlik($event, flik.id)"
+                <TransitionGroup
+                    name="slide-left"
+                    tag="div"
+                    class="headings-wrapper"
                 >
-                    {{ flik.heading }}
-                    <button class="move-button" @click.stop="onMove(flik)">
-                        <f-icon
-                            name="caret-up"
-                            :rotate="flik.right ? '270' : '90'"
-                        />
-                    </button>
-                </div>
+                    <div
+                        v-for="flik in leftFlikar"
+                        :key="flik.id"
+                        class="heading2"
+                        :class="{
+                            active: flik.active,
+                            shrouded:
+                                fullscreenFlik && fullscreenFlik.id !== flik.id,
+                        }"
+                        draggable="true"
+                        @click="activate(flik.id)"
+                        @dragstart="onStartDragFlik($event, flik.id)"
+                    >
+                        {{ flik.heading }}
+                        <button
+                            class="move-button"
+                            @click.stop="onMove(flik)"
+                        >
+                            <f-icon
+                                name="caret-up"
+                                :rotate="flik.right ? '270' : '90'"
+                            />
+                        </button>
+                    </div>
+                </TransitionGroup>
+            </div>
+            <div
+                v-show="rightFlikar.length"
+                class="mycol"
+                @drop="onDropFlik($event, true)"
+                @dragover.prevent
+                @dragenter.prevent
+            >
+                <TransitionGroup
+                    name="slide-right"
+                    tag="div"
+                    class="headings-wrapper"
+                >
+                    <div
+                        v-for="flik in rightFlikar"
+                        :key="flik.id"
+                        class="heading2"
+                        :class="{
+                            active: flik.active,
+                            shrouded:
+                                fullscreenFlik && fullscreenFlik.id !== flik.id,
+                        }"
+                        draggable="true"
+                        @click="activate(flik.id)"
+                        @dragstart="onStartDragFlik($event, flik.id)"
+                    >
+                        {{ flik.heading }}
+                        <button
+                            class="move-button"
+                            @click.stop="onMove(flik)"
+                        >
+                            <f-icon
+                                name="caret-up"
+                                :rotate="flik.right ? '270' : '90'"
+                            />
+                        </button>
+                    </div>
+                </TransitionGroup>
             </div>
         </div>
         <div class="myrow content">
@@ -254,6 +299,42 @@ function onDropFlik(event: DragEvent, right: boolean): void {
 .myrow.heading .mycol:last-child {
     justify-content: flex-end;
 }
+.headings-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    width: 100%;
+}
+.mycol:first-child .headings-wrapper {
+    justify-content: flex-start;
+}
+.mycol:last-child .headings-wrapper {
+    justify-content: flex-end;
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+    transition: all 0.5s ease;
+}
+.slide-left-move,
+.slide-right-move {
+    transition: transform 0.5s ease;
+}
+
+.slide-left-enter-from,
+.slide-left-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.slide-right-enter-from,
+.slide-right-leave-to {
+    opacity: 0;
+    transform: translateX(-30px);
+}
+
 .heading2,
 .myrow.content .mycol {
     border: 1px solid #7f7f7f;
