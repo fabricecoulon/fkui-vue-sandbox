@@ -263,6 +263,8 @@ function onDropFlik(event: DragEvent, right: boolean): void {
 }
 .myrow.content .mycol {
     border-left-width: 0;
+    position: relative;
+    overflow: hidden;
 }
 .heading2 {
     border-bottom-width: 0;
