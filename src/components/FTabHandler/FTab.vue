@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { FIcon } from "@fkui/vue";
+import { Motion } from "motion-v";
 import { type TabData } from "./tab-data";
 
 /**
@@ -41,30 +42,49 @@ onMounted(() => (mounted.value = true));
 <template>
     <div v-if="mounted">
         <Teleport :to="`#${placement}`">
-            <div
-                v-show="
-                    tabData.active && (tabData.fullscreen || !fullscreenActive)
-                "
-                class="content"
+            <Motion
+                :key="placement"
+                :initial="{
+                    opacity: 0,
+                    x: tabData.right ? -100 : 100,
+                }"
+                :animate="{
+                    opacity: 1,
+                    x: 0,
+                    transition: {
+                        duration: 0.3,
+                        delay: 0.05,
+                    },
+                }"
             >
-                <div class="buttons">
-                    <button
-                        v-show="fullscreenPossible"
-                        @click="$emit('fullscreen')"
-                    >
-                        <f-icon
-                            :name="tabData.fullscreen ? 'dash' : 'new-window'"
-                        />
-                    </button>
-                    <button @click="$emit('move')">
-                        <f-icon
-                            name="caret-up"
-                            :rotate="tabData.right ? '270' : '90'"
-                        />
-                    </button>
+                <div
+                    v-show="
+                        tabData.active &&
+                        (tabData.fullscreen || !fullscreenActive)
+                    "
+                    class="content"
+                >
+                    <div class="buttons">
+                        <button
+                            v-show="fullscreenPossible"
+                            @click="$emit('fullscreen')"
+                        >
+                            <f-icon
+                                :name="
+                                    tabData.fullscreen ? 'dash' : 'new-window'
+                                "
+                            />
+                        </button>
+                        <button @click="$emit('move')">
+                            <f-icon
+                                name="caret-up"
+                                :rotate="tabData.right ? '270' : '90'"
+                            />
+                        </button>
+                    </div>
+                    <slot />
                 </div>
-                <slot />
-            </div>
+            </Motion>
         </Teleport>
     </div>
 </template>

@@ -23,13 +23,13 @@
     "@fkui/logic": "6.24.0",
     "@fkui/theme-default": "6.24.1",
     "@fkui/vue": "6.24.1",
+    "motion-v": "1.7.4",
     "vue": "3.5.22",
     "vue-router": "4.6.3"
   },
   "devDependencies": {
     "@eslint/js": "9.39.1",
     "@fkui/font-default": "6.24.1",
-    "@vitejs/plugin-vue": "6.0.1",
     "@forsakringskassan/eslint-config": "13.2.0",
     "@forsakringskassan/eslint-config-cli": "13.2.0",
     "@forsakringskassan/eslint-config-cypress": "13.2.0",
@@ -38,6 +38,7 @@
     "@forsakringskassan/eslint-config-typescript-typeinfo": "13.2.1",
     "@forsakringskassan/eslint-config-vue": "13.2.1",
     "@forsakringskassan/prettier-config": "3.1.7",
+    "@vitejs/plugin-vue": "6.0.1",
     "eslint": "9.39.1",
     "eslint-plugin-vue": "10.5.1",
     "globals": "16.5.0",
