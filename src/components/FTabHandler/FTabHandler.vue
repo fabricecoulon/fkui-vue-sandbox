@@ -243,17 +243,21 @@ function onDropFlik(event: DragEvent, right: boolean): void {
         </div>
         <div class="myrow content">
             <div
-                v-show="leftFlikar.length && !fullscreenFlik?.right"
                 :id="leftId"
                 class="mycol"
+                :class="{
+                    'col-hidden':
+                        !leftFlikar.length || fullscreenFlik?.right,
+                }"
             />
             <div
-                v-show="
-                    rightFlikar.length &&
-                    (!fullscreenFlik || fullscreenFlik.right)
-                "
                 :id="rightId"
                 class="mycol"
+                :class="{
+                    'col-hidden':
+                        !rightFlikar.length ||
+                        (fullscreenFlik && !fullscreenFlik.right),
+                }"
             />
         </div>
     </div>
@@ -289,6 +293,12 @@ function onDropFlik(event: DragEvent, right: boolean): void {
 .mycol {
     flex-basis: 0;
     flex-grow: 1;
+    transition: flex-grow 0.4s ease-out;
+}
+.mycol.col-hidden {
+    flex-grow: 0;
+    border: 0;
+    padding: 0;
 }
 .myrow.heading .mycol {
     display: flex;
@@ -350,6 +360,12 @@ function onDropFlik(event: DragEvent, right: boolean): void {
     padding: 0.2rem 0.5rem;
     font-size: 1.2rem;
     cursor: pointer;
+    transition:
+        opacity 0.4s ease-out,
+        border-bottom-color 0.4s ease-out;
+}
+.heading2.shrouded {
+    opacity: 0.6;
 }
 .heading2:not(:first-child) {
     margin-left: 0.1rem;
