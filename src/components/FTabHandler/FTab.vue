@@ -118,6 +118,8 @@ watch(
 
 .tab-slide-leave-active {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
 }
 
@@ -131,13 +133,17 @@ watch(
     transition:
         opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
         transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-        background-color 0.8s ease-out;
+        background-color 0.8s ease-out,
+        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: left center;
     backface-visibility: hidden;
 }
 
 .tab-move-right-leave-active {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+    transition:
+        opacity 0.3s cubic-bezier(0.4, 0, 0.6, 1),
+        transform 0.3s cubic-bezier(0.4, 0, 0.6, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.6, 1);
     position: absolute;
     width: 100%;
     transform-origin: right center;
@@ -148,16 +154,22 @@ watch(
     opacity: 0;
     transform: perspective(1000px) rotateY(-90deg);
     background-color: rgba(19, 107, 64, 0.15);
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.15);
+    border-left: 2px solid rgba(0, 0, 0, 0.08);
 }
 
 .tab-move-right-enter-to {
     transform: perspective(1000px) rotateY(0deg);
     background-color: transparent;
+    box-shadow: none;
+    border-left: none;
 }
 
 .tab-move-right-leave-to {
     opacity: 0;
     transform: perspective(1000px) rotateY(90deg);
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.15);
+    border-right: 2px solid rgba(0, 0, 0, 0.08);
 }
 
 /* Tab move left transition (right->left, flip like turning page backward) */
@@ -165,13 +177,17 @@ watch(
     transition:
         opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
         transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-        background-color 0.8s ease-out;
+        background-color 0.8s ease-out,
+        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: right center;
     backface-visibility: hidden;
 }
 
 .tab-move-left-leave-active {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.6, 1);
+    transition:
+        opacity 0.3s cubic-bezier(0.4, 0, 0.6, 1),
+        transform 0.3s cubic-bezier(0.4, 0, 0.6, 1),
+        box-shadow 0.3s cubic-bezier(0.4, 0, 0.6, 1);
     position: absolute;
     width: 100%;
     transform-origin: left center;
@@ -182,16 +198,22 @@ watch(
     opacity: 0;
     transform: perspective(1000px) rotateY(90deg);
     background-color: rgba(19, 107, 64, 0.15);
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.15);
+    border-right: 2px solid rgba(0, 0, 0, 0.08);
 }
 
 .tab-move-left-enter-to {
     transform: perspective(1000px) rotateY(0deg);
     background-color: transparent;
+    box-shadow: none;
+    border-right: none;
 }
 
 .tab-move-left-leave-to {
     opacity: 0;
     transform: perspective(1000px) rotateY(-90deg);
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.15);
+    border-left: 2px solid rgba(0, 0, 0, 0.08);
 }
 
 /* Accessibility: respect reduced motion preference */
