@@ -128,7 +128,8 @@ watch(
     opacity: 0;
 }
 
-/* Tab move right transition (left->right, flip like turning page forward) */
+/* Tab move right transition (left->right, flip like turning page forward)
+   Note: edge effect uses inset box-shadow instead of border to avoid layout snap */
 .tab-move-right-enter-active {
     transition:
         opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -154,22 +155,23 @@ watch(
     opacity: 0;
     transform: perspective(1000px) rotateY(-90deg);
     background-color: rgba(19, 107, 64, 0.15);
-    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.15);
-    border-left: 2px solid rgba(0, 0, 0, 0.08);
+    box-shadow:
+        -10px 0 20px rgba(0, 0, 0, 0.15),
+        inset 2px 0 0 rgba(0, 0, 0, 0.08);
 }
 
 .tab-move-right-enter-to {
     transform: perspective(1000px) rotateY(0deg);
     background-color: transparent;
     box-shadow: none;
-    border-left: none;
 }
 
 .tab-move-right-leave-to {
     opacity: 0;
     transform: perspective(1000px) rotateY(90deg);
-    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.15);
-    border-right: 2px solid rgba(0, 0, 0, 0.08);
+    box-shadow:
+        10px 0 20px rgba(0, 0, 0, 0.15),
+        inset -2px 0 0 rgba(0, 0, 0, 0.08);
 }
 
 /* Tab move left transition (right->left, flip like turning page backward) */
@@ -198,22 +200,23 @@ watch(
     opacity: 0;
     transform: perspective(1000px) rotateY(90deg);
     background-color: rgba(19, 107, 64, 0.15);
-    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.15);
-    border-right: 2px solid rgba(0, 0, 0, 0.08);
+    box-shadow:
+        10px 0 20px rgba(0, 0, 0, 0.15),
+        inset -2px 0 0 rgba(0, 0, 0, 0.08);
 }
 
 .tab-move-left-enter-to {
     transform: perspective(1000px) rotateY(0deg);
     background-color: transparent;
     box-shadow: none;
-    border-right: none;
 }
 
 .tab-move-left-leave-to {
     opacity: 0;
     transform: perspective(1000px) rotateY(-90deg);
-    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.15);
-    border-left: 2px solid rgba(0, 0, 0, 0.08);
+    box-shadow:
+        -10px 0 20px rgba(0, 0, 0, 0.15),
+        inset 2px 0 0 rgba(0, 0, 0, 0.08);
 }
 
 /* Accessibility: respect reduced motion preference */

@@ -41,6 +41,8 @@ const flikar = ref(
     }),
 );
 
+const justMovedId = ref<number | null>(null);
+
 // Computed properties for easy filtering and state checking
 const leftFlikar = computed(() => flikar.value.filter((flik) => !flik.right));
 const rightFlikar = computed(() => flikar.value.filter((flik) => flik.right));
@@ -126,6 +128,8 @@ function activate(flikId: number): void {
  */
 function onMove(flik: TabData): void {
     reorganize(flik);
+    justMovedId.value = flik.id;
+    setTimeout(() => (justMovedId.value = null), 1000);
 }
 
 /**
@@ -181,6 +185,7 @@ function onDropFlik(event: DragEvent, right: boolean): void {
                         active: flik.active,
                         shrouded:
                             fullscreenFlik && fullscreenFlik.id !== flik.id,
+                        'just-moved': justMovedId === flik.id,
                     }"
                     draggable="true"
                     @click="activate(flik.id)"
@@ -288,5 +293,21 @@ function onDropFlik(event: DragEvent, right: boolean): void {
     border-style: none;
     background: none;
     cursor: pointer;
+}
+.heading2.just-moved {
+    animation: tab-flash 0.8s ease-out;
+}
+@keyframes tab-flash {
+    0% {
+        background-color: rgba(19, 107, 64, 0.25);
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .heading2.just-moved {
+        animation: none;
+    }
 }
 </style>
