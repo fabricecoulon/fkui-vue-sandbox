@@ -125,6 +125,7 @@ function activate(flikId: number): void {
  * @param {TabData} flik - The tab to move.
  */
 function onMove(flik: TabData): void {
+    animateTeleport.value = true;
     reorganize(flik);
 }
 
@@ -159,6 +160,8 @@ function onDropFlik(event: DragEvent, right: boolean): void {
         onMove(flik);
     }
 }
+
+const animateTeleport = ref(false);
 </script>
 
 <template>
@@ -190,10 +193,7 @@ function onDropFlik(event: DragEvent, right: boolean): void {
                         @dragstart="onStartDragFlik($event, flik.id)"
                     >
                         {{ flik.heading }}
-                        <button
-                            class="move-button"
-                            @click.stop="onMove(flik)"
-                        >
+                        <button class="move-button" @click.stop="onMove(flik)">
                             <f-icon
                                 name="caret-up"
                                 :rotate="flik.right ? '270' : '90'"
@@ -228,10 +228,7 @@ function onDropFlik(event: DragEvent, right: boolean): void {
                         @dragstart="onStartDragFlik($event, flik.id)"
                     >
                         {{ flik.heading }}
-                        <button
-                            class="move-button"
-                            @click.stop="onMove(flik)"
-                        >
+                        <button class="move-button" @click.stop="onMove(flik)">
                             <f-icon
                                 name="caret-up"
                                 :rotate="flik.right ? '270' : '90'"
@@ -246,8 +243,7 @@ function onDropFlik(event: DragEvent, right: boolean): void {
                 :id="leftId"
                 class="mycol"
                 :class="{
-                    'col-hidden':
-                        !leftFlikar.length || fullscreenFlik?.right,
+                    'col-hidden': !leftFlikar.length || fullscreenFlik?.right,
                 }"
             />
             <div
@@ -269,6 +265,7 @@ function onDropFlik(event: DragEvent, right: boolean): void {
         :placement="flik.right ? rightId : leftId"
         :fullscreen-possible
         :fullscreen-active="!!fullscreenFlik"
+        :animate-teleport
         @move="onMove(flik)"
         @fullscreen="onFullscreenChange(flik)"
     >

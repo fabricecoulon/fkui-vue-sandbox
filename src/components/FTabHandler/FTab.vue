@@ -27,6 +27,10 @@ defineProps<{
      * If true, it indicates that a tab is currently in fullscreen mode.
      */
     fullscreenActive: boolean;
+    /**
+     * If true animate the tab teleport
+     */
+    animateTeleport: boolean;
 }>();
 defineEmits<{
     /** Emitted when the user clicks the move button */
@@ -36,7 +40,10 @@ defineEmits<{
 }>();
 
 const mounted = ref(false);
-onMounted(() => (mounted.value = true));
+
+onMounted(() => {
+    mounted.value = true;
+});
 </script>
 
 <template>
@@ -44,18 +51,28 @@ onMounted(() => (mounted.value = true));
         <Teleport :to="`#${placement}`">
             <Motion
                 :key="placement"
-                :initial="{
-                    opacity: 0,
-                    x: tabData.right ? -100 : 100,
-                }"
-                :animate="{
-                    opacity: 1,
-                    x: 0,
-                    transition: {
-                        duration: 0.3,
-                        delay: 0.05,
-                    },
-                }"
+                :initial="
+                    animateTeleport
+                        ? {
+                              opacity: 0,
+                              x: tabData.right ? -100 : 100,
+                          }
+                        : {
+                              opacity: 1,
+                          }
+                "
+                :animate="
+                    animateTeleport
+                        ? {
+                              opacity: 1,
+                              x: 0,
+                              transition: {
+                                  duration: 0.3,
+                                  delay: 0.05,
+                              },
+                          }
+                        : {}
+                "
             >
                 <div
                     v-show="
