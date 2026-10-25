@@ -73,14 +73,21 @@ watch(
                     <div class="buttons">
                         <button
                             v-show="fullscreenPossible"
+                            class="fullscreen-button"
+                            :class="{
+                                'fullscreen-active': tabData.fullscreen,
+                            }"
                             @click="$emit('fullscreen')"
                         >
                             <f-icon
-                                :name="tabData.fullscreen ? 'dash' : 'new-window'"
+                                :name="
+                                    tabData.fullscreen ? 'dash' : 'new-window'
+                                "
                             />
                         </button>
                         <button @click="$emit('move')">
                             <f-icon
+                                class="move-icon"
                                 name="caret-up"
                                 :rotate="tabData.right ? '270' : '90'"
                             />
@@ -217,6 +224,18 @@ watch(
     box-shadow:
         -10px 0 20px rgba(0, 0, 0, 0.15),
         inset 2px 0 0 rgba(0, 0, 0, 0.08);
+}
+
+@media (max-width: 639.98px) {
+    .fullscreen-button:not(.fullscreen-active) {
+        display: none;
+    }
+    .move-icon.icon--rotate-90 {
+        transform: rotate(180deg);
+    }
+    .move-icon.icon--rotate-270 {
+        transform: rotate(0deg);
+    }
 }
 
 /* Accessibility: respect reduced motion preference */

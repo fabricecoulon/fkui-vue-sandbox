@@ -194,6 +194,7 @@ function onDropFlik(event: DragEvent, right: boolean): void {
                     {{ flik.heading }}
                     <button class="move-button" @click.stop="onMove(flik)">
                         <f-icon
+                            class="move-icon"
                             name="caret-up"
                             :rotate="flik.right ? '270' : '90'"
                         />
@@ -308,6 +309,45 @@ function onDropFlik(event: DragEvent, right: boolean): void {
 @media (prefers-reduced-motion: reduce) {
     .heading2.just-moved {
         animation: none;
+    }
+}
+@media (max-width: 639.98px) {
+    .mytable {
+        flex-direction: column;
+    }
+    .myrow {
+        display: contents;
+    }
+    .myrow .mycol {
+        flex-basis: auto;
+        flex-grow: 0;
+        width: 100%;
+    }
+    .myrow.heading .mycol,
+    .myrow.heading .mycol:last-child {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+    .myrow.heading .mycol:first-child {
+        order: 1;
+    }
+    .myrow.content .mycol:first-child {
+        order: 2;
+        margin-bottom: 1rem;
+        border-left-width: 1px;
+    }
+    .myrow.heading .mycol:last-child {
+        order: 3;
+    }
+    .myrow.content .mycol:last-child {
+        order: 4;
+        border-left-width: 1px;
+    }
+    .move-icon.icon--rotate-90 {
+        transform: rotate(180deg);
+    }
+    .move-icon.icon--rotate-270 {
+        transform: rotate(0deg);
     }
 }
 </style>
